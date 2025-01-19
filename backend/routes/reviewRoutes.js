@@ -23,6 +23,7 @@ router.post("/", (req, res) => {
     [staff, shishaQuality, staffQuality, venueQuality, feedback, visitDate],
     function (err) {
       if (err) {
+        console.error("Database error:", err.message);
         return res.status(500).json({ error: "Failed to save review" });
       }
 
@@ -37,14 +38,24 @@ router.post("/", (req, res) => {
 
       const mailOptions = {
         from: process.env.EMAIL_USER,
-        to: "ilgar_guliyev2003@mail.ru",
-        subject: "New Review",
-        text: `Branch: ${staff}\nShisha Quality: ${shishaQuality}\nFeedback: ${feedback}`,
+        to: process.env.RECEIVER_EMAIL || "ilgar_guliyev2003@mail.ru", // Use a dynamic receiver if defined
+        subject: "New Review Submission",
+        text: `
+          Branch: ${staff}
+          Shisha Quality: ${shishaQuality}
+          Staff Quality: ${staffQuality}
+          Venue Quality: ${venueQuality}
+          Feedback: ${feedback}
+          Visit Date: ${visitDate}
+        `,
       };
 
       transporter.sendMail(mailOptions, (err) => {
         if (err) {
-          return res.status(500).json({ error: "Failed to send email" });
+          console.error("Email error:", err.message);
+          return res
+            .status(500)
+            .json({ error: "Failed to send email notification" });
         }
 
         res.json({ message: "Review submitted successfully!" });

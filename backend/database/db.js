@@ -1,6 +1,12 @@
 const sqlite3 = require("sqlite3").verbose();
+const path = require("path");
 
-const db = new sqlite3.Database("./database/reviews.db", (err) => {
+const dbPath =
+  process.env.NODE_ENV === "production"
+    ? "./database/reviews.db"
+    : path.join(__dirname, "reviews.db");
+
+const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
     console.error("Failed to connect to the database:", err.message);
   } else {
