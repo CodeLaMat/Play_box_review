@@ -11,10 +11,5 @@
       "src": "/api/(.*)",
       "dest": "server.js"
     }
-  ],
-  "functions": {
-    "server.js": {
-      "includeFiles": "database/**, .env"
-    }
-  }
+  ]
 }
