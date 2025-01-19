@@ -35,17 +35,17 @@ app.post("/api/reviews", async (req, res) => {
   try {
     // Configure Nodemailer
     const transporter = nodemailer.createTransport({
-      service: "Mail.ru", // Use your email provider
+      service: "Mail.ru",
       auth: {
-        user: process.env.EMAIL_USER, // Your email
-        pass: process.env.EMAIL_PASSWORD, // Your email password or app-specific password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
       },
     });
 
     // Email content
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: process.env.RECEIVER_EMAIL || "default@example.com", // Receiver's email
+      to: process.env.RECEIVER_EMAIL || "default@example.com",
       subject: "New Review Submission",
       text: `
         New review submitted:

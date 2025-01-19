@@ -35,7 +35,7 @@ router.post("/", (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: process.env.RECEIVER_EMAIL || "default@example.com",
+    to: process.env.RECEIVER_EMAIL || "ilgar_guliyev2003@mail.ru",
     subject: "New Review Submission",
     text: `
       New review submitted:
