@@ -12,6 +12,11 @@ app.use(express.json());
 // Routes
 app.use("/api/reviews", reviewRoutes);
 
+// Health Check Route
+app.get("/api", (req, res) => {
+  res.send("API is working!");
+});
+
 // Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
