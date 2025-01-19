@@ -3,6 +3,8 @@ const cors = require("cors");
 const reviewRoutes = require("./routes/reviewRoutes");
 require("dotenv").config();
 
+const PORT = process.env.PORT || 5000;
+
 const app = express();
 
 // Middleware
@@ -18,7 +20,12 @@ app.get("/api", (req, res) => {
 });
 
 // Server
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Backend server is running on ${PORT}`);
+  console.log(
+    `Server is running on ${
+      process.env.NODE_ENV === "production"
+        ? "Vercel deployment domain"
+        : `http://localhost:${PORT}`
+    }`
+  );
 });
