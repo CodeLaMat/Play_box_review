@@ -2,9 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "playbox_backend",
-  "main": "index.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +15,9 @@
     "express": "4.21.2",
     "nodemailer": "6.9.16",
     "sqlite3": "5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.22"
   },
   "engines": {
     "node": "22.x"
