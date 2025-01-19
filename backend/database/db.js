@@ -4,7 +4,7 @@ const path = require("path");
 // Determine the database path dynamically
 const dbPath =
   process.env.NODE_ENV === "production"
-    ? process.env.DATABASE_PATH || "./database/reviews.db"
+    ? path.resolve("database/reviews.db")
     : path.join(__dirname, "reviews.db");
 
 console.log(`Using database at: ${dbPath}`);
