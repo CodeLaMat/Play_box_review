@@ -14,7 +14,7 @@
   ],
   "functions": {
     "server.js": {
-      "includeFiles": ["database/**", ".env"]
+      "includeFiles": "database/**, .env"
     }
   }
 }
