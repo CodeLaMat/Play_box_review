@@ -18,10 +18,15 @@ router.post("/", (req, res) => {
     INSERT INTO reviews (branch, shisha_quality, staff_quality, venue_quality, feedback, visit_date)
     VALUES (?, ?, ?, ?, ?, ?)
   `;
+
+  console.log("Inserting review into the database...");
+
   db.run(
     sql,
     [staff, shishaQuality, staffQuality, venueQuality, feedback, visitDate],
     function (err) {
+      console.log("Database query finished.");
+
       if (err) {
         console.error("Database error:", err.message);
         return res.status(500).json({ error: "Failed to save review" });
