@@ -1,15 +1,20 @@
 {
   "version": 2,
-  "functions": {
-    "api/index.js": {
-      "runtime": "nodejs22.x",
-      "includeFiles": "database/**"
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node@2.0.0"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
       "dest": "api/index.js"
     }
-  ]
+  ],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "database/**"
+    }
+  }
 }
