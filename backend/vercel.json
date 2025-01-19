@@ -3,10 +3,7 @@
   "builds": [
     {
       "src": "api/index.js",
-      "use": "@vercel/node@2.0.",
-      "config": {
-        "includeFiles": "database/reviews.db"
-      }
+      "use": "@vercel/node@2.0."
     }
   ],
   "routes": [

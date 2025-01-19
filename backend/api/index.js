@@ -1,6 +1,6 @@
 const express = require("express");
+const nodemailer = require("nodemailer");
 const cors = require("cors");
-const reviewRoutes = require("../routes/reviewRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -10,20 +10,75 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/api/reviews", reviewRoutes);
+// POST: Submit a review and send email
+app.post("/api/reviews", async (req, res) => {
+  const {
+    staff,
+    shishaQuality,
+    staffQuality,
+    venueQuality,
+    feedback,
+    visitDate,
+  } = req.body;
+
+  // Validate input
+  if (
+    !staff ||
+    !shishaQuality ||
+    !staffQuality ||
+    !venueQuality ||
+    !visitDate
+  ) {
+    return res.status(400).json({ error: "All fields are required." });
+  }
+
+  try {
+    // Configure Nodemailer
+    const transporter = nodemailer.createTransport({
+      service: "Mail.ru", // Use your email provider
+      auth: {
+        user: process.env.EMAIL_USER, // Your email
+        pass: process.env.EMAIL_PASSWORD, // Your email password or app-specific password
+      },
+    });
+
+    // Email content
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.RECEIVER_EMAIL || "default@example.com", // Receiver's email
+      subject: "New Review Submission",
+      text: `
+        New review submitted:
+        Branch: ${staff}
+        Shisha Quality: ${shishaQuality}
+        Staff Quality: ${staffQuality}
+        Venue Quality: ${venueQuality}
+        Feedback: ${feedback}
+        Visit Date: ${visitDate}
+      `,
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    res.json({ message: "Review submitted and email sent successfully!" });
+  } catch (error) {
+    console.error("Error sending email:", error.message);
+    res.status(500).json({ error: "Failed to send email." });
+  }
+});
 
 // Health Check
 app.get("/api", (req, res) => {
   res.send("API is working!");
 });
 
-// Start server in local development
+// Local development server
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
   });
 }
 
-// Export for serverless environments
+// Export for Vercel deployment
 module.exports = app;
